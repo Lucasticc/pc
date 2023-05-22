@@ -1,3 +1,4 @@
+import os
 def bulk_download(url_list:list,format:str,save_path:str):
     for ele in url_list:
         if format in ele:
