@@ -27,6 +27,7 @@ def get_Index(url):
 def parse_Index(res):
     res=res.result()
     #获取模板链接
+    print(res)
     urls=re.findall(r'h2.*?href="(.*?)"',res,re.S)
     # print(urls)
     for url in urls:
@@ -44,7 +45,7 @@ def get_Detail(url):
         ppt_url=ppt_url[0]
         if ppt_url:
             print(ppt_url)
-            save('https://www.1ppt.com/'+ppt_url)
+            # save('https://www.1ppt.com/'+ppt_url)   
     #         ppt=requests.get(ppt_url)
     #         if ppt.status_code==200:
     #             m=hashlib.md5();
