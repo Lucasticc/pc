@@ -85,8 +85,8 @@ def save(ppt_url,ppt_name):
     ppt=requests.get(ppt_url,headers=headers)
     if ppt.status_code==200:
         filename=r'%s.zip' %ppt_name
-        filepath=r'Z:\\ppt\\%s' %filename
-        filepath='/Users/lanyiwei/pypc/down_files/%s'%filename
+        filepath=r'Z:\\ppt\\简约\\%s' %filename
+        # filepath='/Users/lanyiwei/pypc/down_files/%s'%filename
         with open(filepath,'wb') as f:
             f.write(ppt.content)
     else:

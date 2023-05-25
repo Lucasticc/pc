@@ -98,11 +98,11 @@ def parse_Index(ppt):
     ppt_urls = re.findall(r'/article.*?\.html',ppt,re.S)
     for url in ppt_urls:
         #提交到线程池
-        p.submit(get_url(url))
-        # get_url(url)
+        # p.submit(get_url(url))
+        get_url(url)
 def main():
     print(1)
-    for i in range(2,3):
-        p.submit(get_Index,' https://www.ypppt.com/moban/yishu/list-%s.html' % i ).add_done_callback(parse_Index)
+    for i in range(2,19):
+        p.submit(get_Index,' https://www.ypppt.com/moban/jianyue/list-%s.html' % i ).add_done_callback(parse_Index)
 if __name__=='__main__':
     main()        
