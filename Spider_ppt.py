@@ -98,8 +98,8 @@ def parse_Index(ppt):
     ppt_urls = re.findall(r'/article.*?\.html',ppt,re.S)
     for url in ppt_urls:
         #提交到线程池
-        # p.submit(get_url(url))
-        get_url(url)
+        p.submit(get_url(url))
+        # get_url(url)
 def main():
     print(1)
     for i in range(2,3):
