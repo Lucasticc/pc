@@ -85,7 +85,7 @@ def save(ppt_url,ppt_name):
     ppt=requests.get(ppt_url,headers=headers)
     if ppt.status_code==200:
         filename=r'%s.zip' %ppt_name
-        filepath=r'Z:\\ppt\\简约\\%s' %filename
+        filepath=r'Z:\\ppt\\开题\\%s' %filename
         # filepath='/Users/lanyiwei/pypc/down_files/%s'%filename
         with open(filepath,'wb') as f:
             f.write(ppt.content)
@@ -104,7 +104,7 @@ def get_url(url):
      ppt.encoding = 'utf-8'
      pattern = r'/p/d\.php\?aid=\d+'
      url1='https://www.ypppt.com/'+re.findall(pattern,ppt.text)[0]
-     ppt_name=re.findall(r'<title>(.*?)</title>',ppt.text)
+     ppt_name=re.findall(r'<title>(.*?)- 优品PPT',ppt.text)
      url2 = requests.get(url=url1,headers=headers)
      down_url = re.findall(r'https://down\.ypppt\.com/uploads.*?\.zip',url2.text)
      if len(down_url) == 0:

@@ -101,8 +101,9 @@ def parse_Index(ppt):
         # p.submit(get_url(url))
         get_url(url)
 def main():
-    print(1)
-    for i in range(2,19):
-        p.submit(get_Index,' https://www.ypppt.com/moban/jianyue/list-%s.html' % i ).add_done_callback(parse_Index)
+    for i in range(2,4):
+        print('page',i)
+        p.submit(get_Index,' https://www.ypppt.com/moban/kaiti/list-%s.html' % i ).add_done_callback(parse_Index)
+        # p.submit(get_Index,' https://www.ypppt.com/moban/kaiti.html').add_done_callback(parse_Index)
 if __name__=='__main__':
     main()        
