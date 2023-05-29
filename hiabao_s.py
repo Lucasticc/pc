@@ -1,6 +1,7 @@
-import re
 import requests
 import random
+import re
+from threading import Thread
 headers_list = [
     {
         'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'
@@ -78,26 +79,42 @@ headers_list = [
         'user-agent': 'Mozilla/5.0 (iPad; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.34 (KHTML, like Gecko) Version/11.0 Mobile/15A5341f Safari/604.1'
     }
 ]
-def main():
-    name = 0
-    for i in range(0,1):
-        url = 'https://www.58pic.com/tupian/haibao-0-0-default-0-0-%E6%B5%B7%E6%8A%A5-0_2_0_0_0_0_0-0-0-0-0-0-0-0-'
-        url = url+str(i)+'.html'
+name= 0 
+
+def download_images(start, end):
+    for i in range(start, end):
+        url = 'https://www.58pic.com/tupian/haibao-0-0-default-0-0-%E6%B5%B7%E6%8A%A5-0_2_0_0_0_0_0-0-0-0-0-0-0-0-' + str(i) + '.html'
         print(url)
         headers = random.choice(headers_list)
-        response = requests.get(url=url,headers=headers)
+        response = requests.get(url=url, headers=headers)
         response.encoding = 'utf-8'
-        if response.status_code==200:
-                pattern = r'(?:data-original|src)="(//preview\.qiantucdn\.com.+?)"'
-                filenames=re.findall(pattern,response.text)
-                filenames =set(filenames)
-                for filename in filenames:
-                    filepath='/Users/lanyiwei/pypc/down_files/images/%s.jpg'%name
-                    name+=1
-                    with open(filepath,'wb') as f:
-                        headers = random.choice(headers_list)
-                        response1 = requests.get('http:'+filename,headers=headers)
-                        f.write(response1.content)
+        if response.status_code == 200:
+            pattern = r'(?:data-original|src)="(//preview\.qiantucdn\.com.+?)"'
+            filenames = re.findall(pattern, response.text)
+            for filename in filenames:
+                filepath = r'Z:\data\image\%s.jpg' % name
+                name+=1
+                with open(filepath, 'wb') as f:
+                    headers = random.choice(headers_list)
+                    response1 = requests.get('http:' + filename, headers=headers)
+                    f.write(response1.content)
         else:
-                print("无法下载")
-main()
+            print("无法下载")
+
+if __name__ == '__main__':
+    thread_list = []
+    thread_num = 5  # 设置线程数
+    image_num = 100 # 设置下载的总图片数
+    image_num_per_thread = image_num // thread_num
+    for i in range(thread_num):
+        start = i * image_num_per_thread
+        end = (i + 1) * image_num_per_thread if i != thread_num - 1 else image_num
+        thread = Thread(target=download_images, args=(start, end))
+        thread.start()
+        thread_list.append(thread)
+
+    # 等待所有线程执行完成
+    for thread in thread_list:
+        thread.join()
+
+    print('所有线程执行完成')
